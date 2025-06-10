@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"] // Add this line
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Participant{
+  id String @id @default(uuid())
+  socketId String @unique
+  workshopId String
+  participantId String @unique
+  participantOwnerId String
+  name String?
+  description String @default("Participant")
+  avatar String?
+  workshop Workshop @relation(fields: [workshopId], references: [workshopId])
+  micIsOn Boolean @default(false)
+  cameraIsOn Boolean @default(true)
+  handIsRaised Boolean @default(false)
+  role String?
+  isActive Boolean @default(true)
+  messages Message[]
+}
+
+// Workshop rooms
+model Workshop{
+  id String @id @default(uuid())
+  workshopId String @unique
+  isVirtual Boolean @default(false)
+  state String?
+  isActive Boolean @default(true)
+  messages Message[]
+  participants Participant[]
+}
+
+// Message
+model Message {
+  id String @id @default(uuid())
+  workshopId String
+  workshop Workshop @relation(fields: [workshopId], references: [workshopId])
+  senderId  String
+  sender    Participant    @relation(fields: [senderId], references: [participantId])
+  content String
+  type Tag @default(PARTICIPANT)
+  timestamp DateTime @default(now())
+  isActive Boolean @default(true)
+}
+
+
+enum Tag{
+  PARTICIPANT
+  MODERATOR
+  SUPPORT
+  EXPERT
+}
