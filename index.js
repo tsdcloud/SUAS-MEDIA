@@ -52,7 +52,7 @@ const io = new Server(httpServer, {
 let db = [];
 let messages = [];
 let worker;
-let rooms = {}; // { roomName1: { Router, peers: [socketId1, ...] }, ... }
+let rooms = {}; 
 let roomsList = {}; // { roomName1: { Router, peers: [socketId1, ...] }, ... }
 let peers = {}; // { socketId1: { roomName1, socket, transports = [id1, id2], producers = [id1, id2], consumers = [id1, id2], peerDetails }, ... }
 let transports = []; // [ { socketId1, roomName1, transport, consumer }, ... ]
@@ -152,7 +152,7 @@ io.on('connection', async socket => {
 
     // Join the room
     socket.join(roomId);
-    console.log("user a rejoint la reunion N:", roomId)
+    console.log("user a rejoint la reunion :", roomId)
 
     // onlines users
     const participantId = user.participantId
