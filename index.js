@@ -1,6 +1,6 @@
 import express from 'express';
-// import http from 'http';
-import https from 'https';
+import http from 'http';
+// import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { Server } from 'socket.io';
@@ -22,8 +22,9 @@ const options = {
   cert: fs.readFileSync('cert/cert.crt', 'utf-8')
 }
 
-const httpsServer = https.createServer(options, app);
-httpsServer.listen(process.env.PORT || 5000, process.env.IP, () => {
+// const httpsServer = https.createServer(options, app);
+const httpServer = http.createServer(options, app);
+httpServer.listen(process.env.PORT || 5000, process.env.IP, () => {
   console.log('Listening on port 5000');
 });
 
@@ -33,7 +34,7 @@ const allowedOrigins = [
   'https://suas.media.bfcgroupsa.com'
 ];
 
-const io = new Server(httpsServer, {
+const io = new Server(httpServer, {
   cors: {
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
