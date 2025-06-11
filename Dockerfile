@@ -51,5 +51,5 @@ COPY --from=build /app /app
 EXPOSE 5000 40000-40100/udp
 
 # Lancer l'application
-#CMD ["node", "index.js"]
-CMD ["npm", "start"]
+CMD ["node", "index.js"]
+#CMD ["npm", "start"]
