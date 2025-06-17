@@ -111,15 +111,15 @@ const createWorker = async () => {
   //   logTags: ['ice', 'dtls', 'rtp', 'sctp']
   // });
   worker = await mediasoup.createWorker({
-    rtcMinPort: 2000,
-    rtcMaxPort: 2999,
+    rtcMinPort: 40000,
+    rtcMaxPort: 40099,
     logLevel: 'warn',
     logTags: ['info', 'ice', 'dtls', 'rtp', 'srtp', 'rtcp'],
     rtcAnnouncedIp: process.env.IP,
     workerSettings: {
       logLevel: 'warn',
-      rtcMinPort: 2000,
-      rtcMaxPort: 2999,
+      rtcMinPort: 40000,
+      rtcMaxPort: 40099,
     }
   });
   console.log(`Worker PID: ${worker.pid}`);
